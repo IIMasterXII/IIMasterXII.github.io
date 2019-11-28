@@ -1,1 +1,124 @@
-Hello World.
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/vue-typer/dist/vue-typer.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="crt bg-dark w-100" style="height:100vh;">
+            <div id="editor" class="container h-100 d-flex flex-column justify-content-center align-items-center text-light">
+                <div v-if="complete < 3" class="row justify-content-center align-items-center w-100">
+                    <div v-if="complete == 0" class="col-2 mb-1 p-1 ds-card-2 bg-ds position-relative">
+                        <div class="ds-card-body d-flex justify-content-center align-items-center">
+                            <button class="btn" v-on:click="update">
+                                <p class="m-0"><typer text="START DOWNLOAD" delay=".2" text_speed=".7"></typer></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="complete == 1" class="col-12 p-1 ds-card-2 bg-ds position-relative">
+                        <div class="ds-card-body p-2">
+                            <typer text="LOADING..." delay=".2" text_speed=".7"></typer>
+                            <div class="w-100">
+                                <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
+                                </div>
+                                <div v-if="counter">{{counter}}%</div>
+                            </div>  
+                        </div>                     
+                    </div>
+                </div>
+                <div v-if="complete >= 3" class="row w-100">
+                    <div class="col-5 p-1 bg-ds ds-card-1 mr-2">
+                        <div class="ds-card-body p-4">
+                            <div class="row">
+                                <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
+                                <h4 class="col-12"><typer text="ID: 67102081" delay="2.0" text_speed=".2"></typer></h4>
+                                <h4 class="col-12"><typer text="SEX: Male" delay="2.5" text_speed=".2"></typer></h4>
+                                <h4 class="col-12"><typer text="AGE: 25" delay="3.0" text_speed=".2"></typer></h4>
+                                <h4 class="col-12"><typer text="PROFESSION: Web Developer" delay="3.5" text_speed=".2"></typer></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="complete >= 4" class="col p-1 bg-ds ds-card-1">
+                        <div class="ds-card-body">
+                            <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-12"></div>
+                    <div v-if="complete >= 5" class="col-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
+                        <div class="ds-card-body p-4">
+                            <div class="row">
+                                    <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
+                                    <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col p-1 bg-ds ds-card-1 mt-2">
+                        <div class="ds-card-body p-4">
+                            <div class="row">
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </body>
+<script src="/js/glitch.js"></script>
+<script>
+    Vue.component('typer', {
+        props: ['text','delay','text_speed'],
+        data: function () {
+            return {
+                typed_text: ''
+            }
+        },
+        template: '<span>{{ typed_text }}</span>',
+        methods: {
+            type: function (text) {
+                if(text){
+                    this.typed_text = this.typed_text.concat(text[0]);
+                    setTimeout( () => this.type(text.substring(1, text.length)), this.text_speed*100)
+                }
+            }
+        },
+        mounted(){
+            setTimeout( () => this.type(this.text), (this.delay)*1000);
+        }
+    })
+
+    new Vue({
+        el: '#editor',
+        data: {
+            counter: 0,
+            complete: 0,
+        },
+        methods: {
+            update: function () {
+                if(this.counter < 100){
+                    this.complete = 1;
+                    this.counter++;
+                    setTimeout(this.update, (100 % Math.random()) * 100);
+                }
+                else{
+                    this.complete = 2;
+                    setTimeout(this.loadindex, 200);
+                }
+            },
+            loadindex: function () {
+                this.complete = 3;
+                setTimeout( () => this.complete++, 4000);
+                setTimeout( () => this.complete++, 4500);
+                setTimeout( () => init(), 4100);
+            }
+        }
+    })
+
+</script>
+</html>
