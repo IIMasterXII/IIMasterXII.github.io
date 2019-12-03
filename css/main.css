@@ -175,7 +175,6 @@
 
 .bg-ds{
     background: #badeff30;
-    animation: fadein .5s;
 }
 
 p{
@@ -190,12 +189,6 @@ h2{
     color: #fff;
     background-color: #badeff30;
     border:solid 3px #badeff6b !important;
-}
-
-@keyframes fadein {
-    0% { opacity: 0; transform:scaleX(0) scaleY(0.0); }
-    60% { transform:scaleX(1) scaleY(0.1); }
-    100%   { opacity: 1; transform:scaleX(1) scaleY(1); }
 }
 
 .ds-card-1 {
@@ -265,6 +258,22 @@ h2{
 }
 
 .p-canvas-webgl {
-    width: 100% !important;
+    width:100% !important;
     height:100% !important;
+}
+
+.fade-enter-active{
+    animation: fadein .5s;
+    opacity: 0;
+}
+
+.fade-leave-active {
+    animation: fadein .5s reverse;
+}
+
+@keyframes fadein {
+    0% {transform:scaleX(0) scaleY(0.5); opacity: 0; }
+    10% {transform:scaleX(.01) scaleY(0.01); opacity: .1;}
+    60% {transform:scaleX(1) scaleY(0.01); }
+    100%   {transform:scaleX(1) scaleY(1); opacity: 1; }
 }

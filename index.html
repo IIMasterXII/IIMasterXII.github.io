@@ -15,63 +15,116 @@
     <body>
         <div class="crt bg-dark w-100" style="height:100vh;">
             <div id="editor" class="container h-100 d-flex flex-column justify-content-center align-items-center text-light">
-                <div v-if="complete < 3" class="row justify-content-center align-items-center w-100">
-                    <div v-if="complete == 0" class="col-2 mb-1 p-1 ds-card-2 bg-ds position-relative">
-                        <div class="ds-card-body d-flex justify-content-center align-items-center">
-                            <button class="btn" v-on:click="update">
-                                <p class="m-0"><typer text="START DOWNLOAD" delay=".2" text_speed=".7"></typer></p>
-                            </button>
+
+                <!-- starting screen -->
+                <div class="row justify-content-center align-items-center w-100">
+                    <transition name="fade">
+                        <div v-if="state == 'start'" class="col-2 mb-1 p-1 ds-card-2 bg-ds position-relative">
+                            <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                <button class="btn" v-on:click="loadstart">
+                                    <p class="m-0"><typer text="START DOWNLOAD" delay=".2" text_speed=".4"></typer></p>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div v-if="complete == 1" class="col-12 p-1 ds-card-2 bg-ds position-relative">
-                        <div class="ds-card-body p-2">
-                            <typer text="LOADING..." delay=".2" text_speed=".7"></typer>
-                            <div class="w-100">
-                                <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
-                                </div>
-                                <div v-if="counter">{{counter}}%</div>
-                            </div>  
-                        </div>                     
-                    </div>
+                    </transition>
+                    <transition name="fade">
+                        <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
+                            <div class="ds-card-body p-2">
+                                <typer text="LOADING..." delay=".2" text_speed=".4"></typer>
+                                <div class="w-100">
+                                    <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
+                                    </div>
+                                    <div v-if="counter">{{counter}}%</div>
+                                </div>  
+                            </div>                     
+                        </div>
+                    </transition>
+                    <transition name="fade">
+                        <div v-if="state == 'complete'" class="col-3 p-1 ds-card-2 bg-ds position-relative">
+                            <div class="ds-card-body d-flex p-3 justify-content-center align-items-center">
+                                <typer text="DOWNLOAD COMPLETE" delay=".2" text_speed=".4"></typer>
+                            </div>                     
+                        </div>
+                    </transition>
                 </div>
-                <div v-if="complete >= 3" class="row w-100">
-                    <div class="col-5 p-1 bg-ds ds-card-1 mr-2">
-                        <div class="ds-card-body p-4">
-                            <div class="row">
-                                <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
-                                <h4 class="col-12"><typer text="ID: 67102081" delay="2.0" text_speed=".2"></typer></h4>
-                                <h4 class="col-12"><typer text="SEX: Male" delay="2.5" text_speed=".2"></typer></h4>
-                                <h4 class="col-12"><typer text="AGE: 25" delay="3.0" text_speed=".2"></typer></h4>
-                                <h4 class="col-12"><typer text="PROFESSION: Web Developer" delay="3.5" text_speed=".2"></typer></h4>
+
+                <!-- index screen -->
+                <div class="row w-100">
+                    <transition name="fade">
+                        <div v-show="state == 'index'" class="col-5 p-1 bg-ds ds-card-1 mr-2">
+                            <div class="ds-card-body p-4">
+                                <div class="row">
+                                    <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
+                                    <h4 class="col-12" v-for="(card, index) in personal_info" :key="index">
+                                        <component  :is="card['card-type']" :text="card.card.text" :delay="card.card.delay" :text_speed="card.card.text_speed">
+                                        </component>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div v-if="complete >= 4" class="col p-1 bg-ds ds-card-1">
-                        <div class="ds-card-body">
-                            <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
+                    </transition>
+                    <transition name="fade">
+                        <div v-show="state == 'index'" class="col p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body" style="height:300px;">
+                                <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                     <div class="col-12"></div>
-                    <div v-if="complete >= 5" class="col-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
-                        <div class="ds-card-body p-4">
-                            <div class="row">
-                                    <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
-                                    <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
+                    <transition name="fade">
+                        <div v-show="state == 'index'" class="col-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
+                            <div class="ds-card-body p-4">
+                                <div class="row">
+                                        <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
+                                        <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="col p-1 bg-ds ds-card-1 mt-2">
-                        <div class="ds-card-body p-4">
-                            <div class="row">
+                    </transition>
+                    <transition name="fade">
+                        <div v-show="state == 'index'" class="col p-1 bg-ds ds-card-1 mt-2">
+                            <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                <button class="btn btn-ds" v-on:click="loadfiles">
+                                    <p class="m-0"><typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer></p>
+                                </button>
                             </div>
                         </div>
-                    </div> -->
+                    </transition>
+                </div>
+
+                <!-- files screen -->
+                <div class="row w-100">
+                    <transition name="fade">
+                        <div v-show="state == 'files'" class="col-2 p-1 bg-ds ds-card-1 mt-2">
+                            <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                <button class="btn" v-on:click="loadindex">
+                                    <p class="m-0"><typer text="BACK" delay=".2" text_speed=".4"></typer></p>
+                                </button>
+                            </div>
+                        </div>
+                    </transition>
+                    <div class="col-12"></div>
+                    <transition name="fade">
+                        <div v-show="state == 'files'" class="col p-1 bg-ds ds-card-1 mt-2">
+                            <div class="ds-card-body">
+                                <ul class="p-4">
+                                    <li>File 1</li>
+                                    <li>File 2</li>
+                                    <li>File 3</li>
+                                    <li>File 4</li>
+                                    <li>File 5</li>
+                                    <li>File 6</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
             </div>
         </div>
     </body>
 <script src="/js/glitch.js"></script>
 <script>
+
     Vue.component('typer', {
         props: ['text','delay','text_speed'],
         data: function () {
@@ -97,25 +150,48 @@
         el: '#editor',
         data: {
             counter: 0,
-            complete: 0,
+            state: 'start',
+            personal_info: [
+                {'card': {'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
+                {'card': {'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
+                {'card': {'text': 'PROFESSION: Web Developer', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
+            ],
         },
         methods: {
             update: function () {
                 if(this.counter < 100){
-                    this.complete = 1;
+                    this.state = 'loading';
                     this.counter++;
                     setTimeout(this.update, (100 % Math.random()) * 100);
                 }
                 else{
-                    this.complete = 2;
-                    setTimeout(this.loadindex, 200);
+                    this.state = 'empty';
+                    setTimeout(() => this.state = 'complete', 500)
+                    setTimeout(() => this.state = 'empty', 2000)
+                    setTimeout(this.index, 2500)
                 }
             },
+            loadstart: function (){
+                this.state = 'empty';
+                setTimeout(this.update, 500)
+                init();
+            },
+            index: function() {
+                this.state = 'index';
+            },
             loadindex: function () {
-                this.complete = 3;
-                setTimeout( () => this.complete++, 4000);
-                setTimeout( () => this.complete++, 4500);
-                setTimeout( () => init(), 4100);
+                this.state = 'empty';
+                setTimeout(this.index, 500)
+            },
+            files: function() {
+                this.state = 'files';
+            },
+            loadfiles: function() {
+                this.state = 'empty';
+                setTimeout(this.files, 500)
+            },
+            addCard: function () {
+                this.personal_info.push({'card': {'text': 'I am one card1', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'});
             }
         }
     })

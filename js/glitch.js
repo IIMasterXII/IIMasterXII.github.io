@@ -167,7 +167,6 @@ var renderLoop = function renderLoop() {
 // };
 
 function init() {
-    console.log('Hello')
     canvas = document.getElementById('canvas-webgl');
     renderer = new THREE.WebGLRenderer({
         antialias: false,
