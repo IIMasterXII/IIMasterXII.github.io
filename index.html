@@ -19,10 +19,10 @@
                 <!-- starting screen -->
                 <div class="row justify-content-center align-items-center w-100">
                     <transition name="fade">
-                        <div v-if="state == 'start'" class="col-2 mb-1 p-1 ds-card-2 bg-ds position-relative">
+                        <div v-if="state == 'start'" class="col-auto mb-1 p-1 ds-card-2 bg-ds position-relative">
                             <div class="ds-card-body d-flex justify-content-center align-items-center">
                                 <button class="btn" v-on:click="loadstart">
-                                    <p class="m-0"><typer text="START DOWNLOAD" delay=".2" text_speed=".4"></typer></p>
+                                    <h2 class="m-0 p-2"><typer text="START DOWNLOAD" delay=".2" text_speed=".4"></typer></h2>
                                 </button>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                     <transition name="fade">
                         <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
                             <div class="ds-card-body p-2">
-                                <typer text="LOADING..." delay=".2" text_speed=".4"></typer>
+                                <h3 class="m-0"><typer text="LOADING..." delay=".2" text_speed=".4"></typer></h3>
                                 <div class="w-100">
                                     <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
                                     </div>
@@ -40,9 +40,9 @@
                         </div>
                     </transition>
                     <transition name="fade">
-                        <div v-if="state == 'complete'" class="col-3 p-1 ds-card-2 bg-ds position-relative">
-                            <div class="ds-card-body d-flex p-3 justify-content-center align-items-center">
-                                <typer text="DOWNLOAD COMPLETE" delay=".2" text_speed=".4"></typer>
+                        <div v-if="state == 'complete'" class="col-auto p-1 ds-card-2 bg-ds position-relative">
+                            <div class="ds-card-body p-2 d-flex justify-content-center align-items-center">
+                                <h2 class="m-0 p-2"><typer text="DOWNLOAD COMPLETE" delay=".2" text_speed=".4"></typer></h2>
                             </div>                     
                         </div>
                     </transition>
@@ -51,7 +51,7 @@
                 <!-- index screen -->
                 <div class="row w-100">
                     <transition name="fade">
-                        <div v-show="state == 'index'" class="col-5 p-1 bg-ds ds-card-1 mr-2">
+                        <div v-show="state == 'index'" class="col-12 col-md-5 mb-1 p-1 bg-ds ds-card-1 mr-2">
                             <div class="ds-card-body p-4">
                                 <div class="row">
                                     <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
@@ -72,7 +72,7 @@
                     </transition>
                     <div class="col-12"></div>
                     <transition name="fade">
-                        <div v-show="state == 'index'" class="col-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
+                        <div v-show="state == 'index'" class="col-12 col-md-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
                             <div class="ds-card-body p-4">
                                 <div class="row">
                                         <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
@@ -150,7 +150,7 @@
         el: '#editor',
         data: {
             counter: 0,
-            state: 'start',
+            state: 'index',
             personal_info: [
                 {'card': {'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
                 {'card': {'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
