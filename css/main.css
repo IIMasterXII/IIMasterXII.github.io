@@ -1,4 +1,4 @@
-/* @keyframes flicker {
+@keyframes flicker {
 0% {
     opacity: 0.27861;
 }
@@ -130,28 +130,6 @@
 100% {
     text-shadow: 2.6208764473832513px 0 1px rgba(255, 255, 255, 0.2), -2.6208764473832513px 0 1px rgba(255, 255, 255, 0.2), 0 0 3px;
 }
-} */
-
-html {
-    font-size: 1rem;
-}
-
-@include media-breakpoint-up(sm) {
-    html {
-        font-size: 1.2rem;
-    }
-}
-
-@include media-breakpoint-up(md) {
-    html {
-        font-size: 1.4rem;
-    }
-}
-
-@include media-breakpoint-up(lg) {
-    html {
-        font-size: 1.6rem;
-    }
 }
 
 .crt::after {
@@ -199,12 +177,42 @@ html {
     background: #badeff30;
 }
 
-p{
+a{
     color: #eee;
+}
+
+p{
+    color: #a1ffea;
+}
+
+.list-group-item{
+    background: transparent;
+    border: none;
+}
+
+a:hover{
+    color:#f7ff89;
+    text-decoration: none;
+}
+
+.btn:hover p, .btn:hover h2, .btn:hover h3, .btn:hover h4{
+    color:#f7ff89;
 }
 
 h2{
     color: #eee;
+}
+
+h3{
+    color: #eee;
+}
+
+h4{
+    color: #eee;
+}
+
+h5{
+    color: #a1ffea;
 }
 
 .btn-ds {

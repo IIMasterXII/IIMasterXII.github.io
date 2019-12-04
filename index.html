@@ -22,7 +22,7 @@
                         <div v-if="state == 'start'" class="col-auto mb-1 p-1 ds-card-2 bg-ds position-relative">
                             <div class="ds-card-body d-flex justify-content-center align-items-center">
                                 <button class="btn" v-on:click="loadstart">
-                                    <h2 class="m-0 p-2"><typer text="START DOWNLOAD" delay=".2" text_speed=".4"></typer></h2>
+                                    <h2 class="m-0 p-2"><typer text="LOCATE PROFILE" delay=".2" text_speed=".4"></typer></h2>
                                 </button>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                     <transition name="fade">
                         <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
                             <div class="ds-card-body p-2">
-                                <h3 class="m-0"><typer text="LOADING..." delay=".2" text_speed=".4"></typer></h3>
+                                <h3 class="m-0"><typer text="FINDING PROFILE..." delay=".2" text_speed=".4"></typer></h3>
                                 <div class="w-100">
                                     <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
                                     </div>
@@ -42,7 +42,7 @@
                     <transition name="fade">
                         <div v-if="state == 'complete'" class="col-auto p-1 ds-card-2 bg-ds position-relative">
                             <div class="ds-card-body p-2 d-flex justify-content-center align-items-center">
-                                <h2 class="m-0 p-2"><typer text="DOWNLOAD COMPLETE" delay=".2" text_speed=".4"></typer></h2>
+                                <h2 class="m-0 p-2"><typer text="PROFILE FOUND" delay=".2" text_speed=".4"></typer></h2>
                             </div>                     
                         </div>
                     </transition>
@@ -51,42 +51,49 @@
                 <!-- index screen -->
                 <div class="row w-100">
                     <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-md-5 mb-1 p-1 bg-ds ds-card-1 mr-2">
-                            <div class="ds-card-body p-4">
-                                <div class="row">
-                                    <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
-                                    <h4 class="col-12" v-for="(card, index) in personal_info" :key="index">
-                                        <component  :is="card['card-type']" :text="card.card.text" :delay="card.card.delay" :text_speed="card.card.text_speed">
-                                        </component>
-                                    </h4>
+                        <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
+                            <div class="h-100 p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body p-3">
+                                    <div class="row">
+                                        <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
+                                        <h5 class="col-12" v-for="(card, index) in personal_info" :key="index">
+                                            <component  :is="card['card-type']" :text="card.card.text" :delay="card.card.delay" :text_speed="card.card.text_speed">
+                                            </component>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </transition>
                     <transition name="fade">
-                        <div v-show="state == 'index'" class="col p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body" style="height:300px;">
-                                <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
-                            </div>
-                        </div>
-                    </transition>
-                    <div class="col-12"></div>
-                    <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-md-5 p-1 bg-ds ds-card-1 mt-2 mr-2">
-                            <div class="ds-card-body p-4">
-                                <div class="row">
-                                        <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
-                                        <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
+                        <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
+                            <div class="p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body" style="height:300px;">
+                                    <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
                                 </div>
                             </div>
                         </div>
                     </transition>
                     <transition name="fade">
-                        <div v-show="state == 'index'" class="col p-1 bg-ds ds-card-1 mt-2">
-                            <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <button class="btn btn-ds" v-on:click="loadfiles">
-                                    <p class="m-0"><typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer></p>
-                                </button>
+                        <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
+                            <div class="p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body p-3">
+                                    <div class="row">
+                                            <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
+                                            <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                    <transition name="fade">
+                        <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
+                            <div class="p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                    <button class="btn w-100" v-on:click="loadfiles">
+                                        <h4 class="m-0"><typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer></h4>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </transition>
@@ -95,26 +102,56 @@
                 <!-- files screen -->
                 <div class="row w-100">
                     <transition name="fade">
-                        <div v-show="state == 'files'" class="col-2 p-1 bg-ds ds-card-1 mt-2">
-                            <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <button class="btn" v-on:click="loadindex">
-                                    <p class="m-0"><typer text="BACK" delay=".2" text_speed=".4"></typer></p>
-                                </button>
+                        <div v-show="state == 'files'" class="col-auto p-1">
+                            <div class="p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                    <button class="btn w-100" v-on:click="loadindex">
+                                        <h4 class="m-0"><typer text="BACK" delay=".2" text_speed=".4"></typer></h4>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </transition>
                     <div class="col-12"></div>
                     <transition name="fade">
-                        <div v-show="state == 'files'" class="col p-1 bg-ds ds-card-1 mt-2">
-                            <div class="ds-card-body">
-                                <ul class="p-4">
-                                    <li>File 1</li>
-                                    <li>File 2</li>
-                                    <li>File 3</li>
-                                    <li>File 4</li>
-                                    <li>File 5</li>
-                                    <li>File 6</li>
-                                </ul>
+                        <div v-show="state == 'files'" class="col-12 col-lg-3 p-1">
+                            <div class="p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body">
+                                    <ul class="p-3 list-group">
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="https://www.vision3lighting.com/" @mouseover="hover = 1" @mouseleave="hover = 0"><typer text="Vision3Lighting" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="https://www.staging.fresnovalves.com/" @mouseover="hover = 2" @mouseleave="hover = 0"><typer text="Fresno Valves & Castings" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="https://www.greatercommons.com/" @mouseover="hover = 3" @mouseleave="hover = 0"><typer text="Greater Commons" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="http://csci150project.appspot.com/" @mouseover="hover = 4" @mouseleave="hover = 0"><typer text="NoteOrious" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="https://github.com/IIMasterXII/twitter-clone" @mouseover="hover = 5" @mouseleave="hover = 0"><typer text="Twitter-Clone" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                        <li class="list-group-item d-flex p-1">
+                                            <a class="w-100" href="https://github.com/IIMasterXII/hackfresno2017-site" @mouseover="hover = 6" @mouseleave="hover = 0"><typer text="Tabula" delay=".2" text_speed=".4"></typer></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                    <transition name="fade">
+                        <div v-show="state == 'files'" class="col p-1" style="height:500px;">
+                            <div class="h-100 p-1 bg-ds ds-card-1">
+                                <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                    <img src="/images/vision3.jpg" v-show="hover == 1" class="p-3 position-absolute h-100">
+                                    <img src="/images/valves.jpg" v-show="hover == 2" class="p-3 position-absolute h-100">
+                                    <img src="/images/greater-commons.jpg" v-show="hover == 3" class="p-3 position-absolute h-100">
+                                    <img src="/images/noteorious.jpg" v-show="hover == 4" class="p-3 position-absolute h-100">
+                                    <img src="/images/twitter-clone.jpg" v-show="hover == 5" class="p-3 position-absolute h-100">
+                                    <img src="/images/tabula.jpg" v-show="hover == 6" class="p-3 position-absolute h-100">
+                                </div>
                             </div>
                         </div>
                     </transition>
@@ -150,11 +187,13 @@
         el: '#editor',
         data: {
             counter: 0,
+            hover: 0,
             state: 'start',
             personal_info: [
                 {'card': {'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
                 {'card': {'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
                 {'card': {'text': 'PROFESSION: Web Developer', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
+                {'card': {'text': 'EMAIL: erich.showalter@gmail.com', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
             ],
         },
         methods: {
