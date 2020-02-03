@@ -1,177 +1,234 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="/css/main.css">
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/vue-typer/dist/vue-typer.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet">
-    </head>
 
-    <body>
-        <div class="crt bg-dark w-100" style="height:100vh;">
-            <div id="editor" class="container h-100 d-flex flex-column justify-content-center align-items-center text-light">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue-typer/dist/vue-typer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet">
+</head>
 
-                <!-- starting screen -->
-                <div class="row justify-content-center align-items-center w-100">
-                    <transition name="fade">
-                        <div v-if="state == 'start'" class="col-auto mb-1 p-1 ds-card-2 bg-ds position-relative">
+<body>
+    <div class="crt bg-dark w-100" style="height:100vh;">
+        <div id="editor"
+            class="container h-100 d-flex flex-column justify-content-center align-items-center text-light">
+
+            <!-- starting screen -->
+            <div class="row justify-content-center align-items-center w-100">
+                <transition name="fade">
+                    <div v-if="state == 'start'" class="col-auto mb-1 p-1 ds-card-2 bg-ds position-relative">
+                        <div class="ds-card-body d-flex justify-content-center align-items-center">
+                            <button class="btn" v-on:click="loadstart">
+                                <h2 class="m-0 p-2">
+                                    <typer text="LOCATE PROFILE" delay=".2" text_speed=".4"></typer>
+                                </h2>
+                            </button>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
+                        <div class="ds-card-body p-2">
+                            <h3 class="m-0">
+                                <typer text="FINDING PROFILE..." delay=".2" text_speed=".4"></typer>
+                            </h3>
+                            <div class="w-100">
+                                <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
+                                </div>
+                                <div v-if="counter">{{counter}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-if="state == 'complete'" class="col-auto p-1 ds-card-2 bg-ds position-relative">
+                        <div class="ds-card-body p-2 d-flex justify-content-center align-items-center">
+                            <h2 class="m-0 p-2">
+                                <typer text="PROFILE FOUND" delay=".2" text_speed=".4"></typer>
+                            </h2>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+            <!-- index screen -->
+            <div class="row w-100">
+                <transition name="fade">
+                    <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
+                        <div class="h-100 p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body p-3">
+                                <div class="row">
+                                    <h2 class="col-12">
+                                        <typer text="Erich Showalter" delay=".5" text_speed=".5"></typer>
+                                    </h2>
+                                    <h5 class="col-12" v-for="(card, index) in personal_info" :key="index">
+                                        <component :is="card['card-type']" :text="card.card.text"
+                                            :delay="card.card.delay" :text_speed="card.card.text_speed">
+                                        </component>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
+                        <div class="p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body" style="height:300px;">
+                                <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
+                        <div class="p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body p-3">
+                                <div class="row">
+                                    <h3 class="col-12">
+                                        <typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer>
+                                    </h3>
+                                    <p class="col-12">
+                                        <typer
+                                            text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach."
+                                            delay="1" text_speed=".1"></typer>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
+                        <div class="p-1 bg-ds ds-card-1">
                             <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <button class="btn" v-on:click="loadstart">
-                                    <h2 class="m-0 p-2"><typer text="LOCATE PROFILE" delay=".2" text_speed=".4"></typer></h2>
+                                <button class="btn w-100" v-on:click="loadfiles">
+                                    <h4 class="m-0">
+                                        <typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer>
+                                    </h4>
                                 </button>
                             </div>
                         </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
-                            <div class="ds-card-body p-2">
-                                <h3 class="m-0"><typer text="FINDING PROFILE..." delay=".2" text_speed=".4"></typer></h3>
-                                <div class="w-100">
-                                    <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
-                                    </div>
-                                    <div v-if="counter">{{counter}}%</div>
-                                </div>  
-                            </div>                     
-                        </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-if="state == 'complete'" class="col-auto p-1 ds-card-2 bg-ds position-relative">
-                            <div class="ds-card-body p-2 d-flex justify-content-center align-items-center">
-                                <h2 class="m-0 p-2"><typer text="PROFILE FOUND" delay=".2" text_speed=".4"></typer></h2>
-                            </div>                     
-                        </div>
-                    </transition>
-                </div>
+                    </div>
+                </transition>
+            </div>
 
-                <!-- index screen -->
-                <div class="row w-100">
-                    <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
-                            <div class="h-100 p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body p-3">
-                                    <div class="row">
-                                        <h2 class="col-12"><typer text="Erich Showalter" delay=".5" text_speed=".5"></typer></h2>
-                                        <h5 class="col-12" v-for="(card, index) in personal_info" :key="index">
-                                            <component  :is="card['card-type']" :text="card.card.text" :delay="card.card.delay" :text_speed="card.card.text_speed">
-                                            </component>
-                                        </h5>
-                                    </div>
-                                </div>
+            <!-- files screen -->
+            <div class="row w-100">
+                <transition name="fade">
+                    <div v-show="state == 'files'" class="col-auto p-1">
+                        <div class="p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                <button class="btn w-100" v-on:click="loadindex">
+                                    <h4 class="m-0">
+                                        <typer text="BACK" delay=".2" text_speed=".4"></typer>
+                                    </h4>
+                                </button>
                             </div>
                         </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
-                            <div class="p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body" style="height:300px;">
-                                    <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas>
-                                </div>
+                    </div>
+                </transition>
+                <div class="col-12"></div>
+                <transition name="fade">
+                    <div v-show="state == 'files'" class="col-12 col-lg-3 p-1">
+                        <div class="p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body">
+                                <ul class="p-3 list-group">
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://www.vision3lighting.com/" target="_blank"
+                                            @mouseover="hover = 1" @mouseleave="hover = 0">
+                                            <typer text="Vision3Lighting" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://www.staging.fresnovalves.com/" target="_blank"
+                                            @mouseover="hover = 2" @mouseleave="hover = 0">
+                                            <typer text="Fresno Valves & Castings" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://www.greatercommons.com/" target="_blank"
+                                            @mouseover="hover = 3" @mouseleave="hover = 0">
+                                            <typer text="Greater Commons" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="http://csci150project.appspot.com/" target="_blank"
+                                            @mouseover="hover = 4" @mouseleave="hover = 0">
+                                            <typer text="NoteOrious" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://gentle-retreat-90849.herokuapp.com/"
+                                            target="_blank" @mouseover="hover = 5" @mouseleave="hover = 0">
+                                            <typer text="Django-React NBA Betting Application" delay=".4"
+                                                text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://github.com/IIMasterXII/react-demo"
+                                            target="_blank" @mouseover="hover = 6" @mouseleave="hover = 0">
+                                            <typer text="React Game" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://github.com/IIMasterXII/twitter-clone"
+                                            target="_blank" @mouseover="hover = 7" @mouseleave="hover = 0">
+                                            <typer text="Twitter-Clone" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item d-flex p-1">
+                                        <a class="w-100" href="https://github.com/IIMasterXII/hackfresno2017-site"
+                                            target="_blank" @mouseover="hover = 8" @mouseleave="hover = 0">
+                                            <typer text="Tabula" delay=".2" text_speed=".4"></typer>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
-                            <div class="p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body p-3">
-                                    <div class="row">
-                                            <h3 class="col-12"><typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer></h3>
-                                            <p class="col-12"><typer text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach." delay="1" text_speed=".1"></typer></p>
-                                    </div>
-                                </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div v-show="state == 'files'" class="col p-1" style="height:500px;">
+                        <div class="h-100 p-1 bg-ds ds-card-1">
+                            <div class="ds-card-body d-flex justify-content-center align-items-center">
+                                <img src="/images/vision3.jpg" v-show="hover == 1" class="p-3 position-absolute h-100">
+                                <img src="/images/valves.jpg" v-show="hover == 2" class="p-3 position-absolute h-100">
+                                <img src="/images/greater-commons.jpg" v-show="hover == 3"
+                                    class="p-3 position-absolute h-100">
+                                <img src="/images/noteorious.jpg" v-show="hover == 4"
+                                    class="p-3 position-absolute h-100">
+                                <img src="/images/django-react.jpg" v-show="hover == 5"
+                                    class="p-3 position-absolute h-100">
+                                <img src="/images/react-game.png" v-show="hover == 6"
+                                    class="p-3 position-absolute h-100">
+                                <img src="/images/twitter-clone.jpg" v-show="hover == 7"
+                                    class="p-3 position-absolute h-100">
+                                <img src="/images/tabula.jpg" v-show="hover == 8" class="p-3 position-absolute h-100">
                             </div>
                         </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
-                            <div class="p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                    <button class="btn w-100" v-on:click="loadfiles">
-                                        <h4 class="m-0"><typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer></h4>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </transition>
-                </div>
-
-                <!-- files screen -->
-                <div class="row w-100">
-                    <transition name="fade">
-                        <div v-show="state == 'files'" class="col-auto p-1">
-                            <div class="p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                    <button class="btn w-100" v-on:click="loadindex">
-                                        <h4 class="m-0"><typer text="BACK" delay=".2" text_speed=".4"></typer></h4>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </transition>
-                    <div class="col-12"></div>
-                    <transition name="fade">
-                        <div v-show="state == 'files'" class="col-12 col-lg-3 p-1">
-                            <div class="p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body">
-                                    <ul class="p-3 list-group">
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://www.vision3lighting.com/" target="_blank" @mouseover="hover = 1" @mouseleave="hover = 0"><typer text="Vision3Lighting" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://www.staging.fresnovalves.com/" target="_blank" @mouseover="hover = 2" @mouseleave="hover = 0"><typer text="Fresno Valves & Castings" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://www.greatercommons.com/" target="_blank" @mouseover="hover = 3" @mouseleave="hover = 0"><typer text="Greater Commons" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="http://csci150project.appspot.com/" target="_blank" @mouseover="hover = 4" @mouseleave="hover = 0"><typer text="NoteOrious" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://gentle-retreat-90849.herokuapp.com/" target="_blank" @mouseover="hover = 5" @mouseleave="hover = 0"><typer text="Django-React NBA Betting Application" delay=".4" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://github.com/IIMasterXII/react-demo" target="_blank" @mouseover="hover = 6" @mouseleave="hover = 0"><typer text="React Game" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://github.com/IIMasterXII/twitter-clone" target="_blank" @mouseover="hover = 7" @mouseleave="hover = 0"><typer text="Twitter-Clone" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                        <li class="list-group-item d-flex p-1">
-                                            <a class="w-100" href="https://github.com/IIMasterXII/hackfresno2017-site" target="_blank" @mouseover="hover = 8" @mouseleave="hover = 0"><typer text="Tabula" delay=".2" text_speed=".4"></typer></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </transition>
-                    <transition name="fade">
-                        <div v-show="state == 'files'" class="col p-1" style="height:500px;">
-                            <div class="h-100 p-1 bg-ds ds-card-1">
-                                <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                    <img src="/images/vision3.jpg" v-show="hover == 1" class="p-3 position-absolute h-100">
-                                    <img src="/images/valves.jpg" v-show="hover == 2" class="p-3 position-absolute h-100">
-                                    <img src="/images/greater-commons.jpg" v-show="hover == 3" class="p-3 position-absolute h-100">
-                                    <img src="/images/noteorious.jpg" v-show="hover == 4" class="p-3 position-absolute h-100">
-                                    <img src="/images/django-react.png" v-show="hover == 5" class="p-3 position-absolute h-100">
-                                    <img src="/images/react-game.png" v-show="hover == 6" class="p-3 position-absolute h-100">
-                                    <img src="/images/twitter-clone.jpg" v-show="hover == 7" class="p-3 position-absolute h-100">
-                                    <img src="/images/tabula.jpg" v-show="hover == 8" class="p-3 position-absolute h-100">
-                                </div>
-                            </div>
-                        </div>
-                    </transition>
-                </div>
+                    </div>
+                </transition>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 <script src="/js/glitch.js"></script>
 <script>
 
     Vue.component('typer', {
-        props: ['text','delay','text_speed'],
+        props: ['text', 'delay', 'text_speed'],
         data: function () {
             return {
                 typed_text: ''
@@ -180,14 +237,14 @@
         template: '<span>{{ typed_text }}</span>',
         methods: {
             type: function (text) {
-                if(text){
+                if (text) {
                     this.typed_text = this.typed_text.concat(text[0]);
-                    setTimeout( () => this.type(text.substring(1, text.length)), this.text_speed*100)
+                    setTimeout(() => this.type(text.substring(1, text.length)), this.text_speed * 100)
                 }
             }
         },
-        mounted(){
-            setTimeout( () => this.type(this.text), (this.delay)*1000);
+        mounted() {
+            setTimeout(() => this.type(this.text), (this.delay) * 1000);
         }
     })
 
@@ -198,50 +255,51 @@
             hover: 0,
             state: 'start',
             personal_info: [
-                {'card': {'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
-                {'card': {'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
-                {'card': {'text': 'PROFESSION: Web Developer', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
-                {'card': {'text': 'EMAIL: erich.showalter@gmail.com', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'},
+                { 'card': { 'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
+                { 'card': { 'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
+                { 'card': { 'text': 'PROFESSION: Web Developer', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
+                { 'card': { 'text': 'EMAIL: erich.showalter@gmail.com', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
             ],
         },
         methods: {
             update: function () {
-                if(this.counter < 100){
+                if (this.counter < 100) {
                     this.state = 'loading';
                     this.counter++;
                     setTimeout(this.update, (100 % Math.random()) * 100);
                 }
-                else{
+                else {
                     this.state = 'empty';
                     setTimeout(() => this.state = 'complete', 500)
                     setTimeout(() => this.state = 'empty', 2000)
                     setTimeout(this.index, 2500)
                 }
             },
-            loadstart: function (){
+            loadstart: function () {
                 this.state = 'empty';
                 setTimeout(this.update, 500)
                 init();
             },
-            index: function() {
+            index: function () {
                 this.state = 'index';
             },
             loadindex: function () {
                 this.state = 'empty';
                 setTimeout(this.index, 500)
             },
-            files: function() {
+            files: function () {
                 this.state = 'files';
             },
-            loadfiles: function() {
+            loadfiles: function () {
                 this.state = 'empty';
                 setTimeout(this.files, 500)
             },
             addCard: function () {
-                this.personal_info.push({'card': {'text': 'I am one card1', 'delay': 0.5, 'text_speed': 0.2}, 'card-type':'typer'});
+                this.personal_info.push({ 'card': { 'text': 'I am one card1', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' });
             }
         }
     })
 
 </script>
+
 </html>
