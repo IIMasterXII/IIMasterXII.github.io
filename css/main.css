@@ -557,6 +557,11 @@ hr.solid{
   a {
     font-size:0.8rem;
   }
+
+  .overlay .overlay-image{
+    background-size:cover;
+    background-position:center;
+  }
 }
 
 @media only screen and (max-width: 750px) {
@@ -639,6 +644,15 @@ hr.solid{
   
   .padding-large-bottom{
     padding-bottom:20px;
+  }
+
+  .overlay.grid-1-2{
+    grid-template-columns: 100%;
+    grid-template-rows: 0 100%;
+  }
+
+  .overlay .overlay-image{
+    display:none;
   }
   
 }

@@ -318,7 +318,7 @@ function getOverlayData(index){
             title.classList.add("text-primary")
             title.innerText = "TABULA";
             content.appendChild(title);
-            description.innerText = `A small project that functioned like an anonomous Discord. Users were allowed to join text channels using codes, and talk freely with other anonomous users. I completed this project during a Hackathon at Fresno State University. I even ended up winning an award.`;
+            description.innerText = `A small project that functioned like an anonymous Discord. Users were allowed to join text channels using codes, and talk freely with other anonymous users. I completed this project during a Hackathon at Fresno State University. I even ended up winning an award.`;
             content.appendChild(description);
             link.setAttribute('href', 'https://github.com/IIMasterXII/hackfresno2017-site');
             content.appendChild(link);
