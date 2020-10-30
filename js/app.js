@@ -275,6 +275,7 @@ function getOverlayData(index){
     let title = document.createElement("h4");
     let description = document.createElement("p");
     let link = document.createElement("a");
+    link.setAttribute("target", "_blank");
     link.innerText = `More...`;
     switch(index){
         case 1:
