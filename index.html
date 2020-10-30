@@ -1,305 +1,180 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue-typer/dist/vue-typer.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script> -->
-    <link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <div class="crt bg-dark w-100" style="height:100vh;">
-        <div id="editor"
-            class="container h-100 d-flex flex-column justify-content-center align-items-center text-light">
-
-            <!-- starting screen -->
-            <div class="row justify-content-center align-items-center w-100">
-                <transition name="fade">
-                    <div v-if="state == 'start'" class="col-auto mb-1 p-1 ds-card-2 bg-ds position-relative">
-                        <div class="ds-card-body d-flex justify-content-center align-items-center">
-                            <button class="btn" v-on:click="loadstart">
-                                <h2 class="m-0 p-2">
-                                    <typer text="LOCATE PROFILE" delay=".2" text_speed=".4"></typer>
-                                </h2>
-                            </button>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-if="state == 'loading'" class="col-12 p-1 ds-card-2 bg-ds position-relative">
-                        <div class="ds-card-body p-2">
-                            <h3 class="m-0">
-                                <typer text="FINDING PROFILE..." delay=".2" text_speed=".4"></typer>
-                            </h3>
-                            <div class="w-100">
-                                <div class="pt-1 pb-1 bg-light" v-bind:style="{width: counter + '%'}">
-                                </div>
-                                <div v-if="counter">{{counter}}%</div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-if="state == 'complete'" class="col-auto p-1 ds-card-2 bg-ds position-relative">
-                        <div class="ds-card-body p-2 d-flex justify-content-center align-items-center">
-                            <h2 class="m-0 p-2">
-                                <typer text="PROFILE FOUND" delay=".2" text_speed=".4"></typer>
-                            </h2>
-                        </div>
-                    </div>
-                </transition>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <title>ERICH SHOWALTER</title>
+  </head>
+  <body>
+    <div class="container">
+        <section class="title height-window">
+            <div class="title-slide-2">
+                <div style="position:relative; overflow:hidden; padding:5%;">
+                    <h1 id="typedtext" class="text-primary text-shadow"></h1>
+                </div>
             </div>
-
-            <!-- index screen -->
-            <div class="row w-100">
-                <transition name="fade">
-                    <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
-                        <div class="h-100 p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body p-3">
-                                <div class="row">
-                                    <h2 class="col-12">
-                                        <typer text="Erich Showalter" delay=".5" text_speed=".5"></typer>
-                                    </h2>
-                                    <h5 class="col-12" v-for="(card, index) in personal_info" :key="index">
-                                        <component :is="card['card-type']" :text="card.card.text"
-                                            :delay="card.card.delay" :text_speed="card.card.text_speed">
-                                        </component>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-show="state == 'index'" class="col-12 col-md-6 p-1">
-                        <div class="p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body" style="height:300px; background-image: url(/images/profile.jpg); background-size: contain; background-repeat: no-repeat; background-position: center;">
-                                <!-- <canvas id="canvas-webgl" class="p-canvas-webgl"></canvas> -->
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
-                        <div class="p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body p-3">
-                                <div class="row">
-                                    <h3 class="col-12">
-                                        <typer text="DESCRIPTION:" delay=".5" text_speed=".2"></typer>
-                                    </h3>
-                                    <p class="col-12">
-                                        <typer
-                                            text="Over 3 years of experience in professional Web Development. Successful at improving usability, performance and functionality by applying skills in Javascript, HTML/CSS, and Python. Collaborative and hardworking web developer with critical thinking skills and a systematic approach."
-                                            delay="1" text_speed=".1"></typer>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-show="state == 'index'" class="col-12 col-lg-6 p-1">
-                        <div class="p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <button class="btn w-100" v-on:click="loadfiles">
-                                    <h4 class="m-0">
-                                        <typer text="PERSONAL FILES" delay=".2" text_speed=".4"></typer>
-                                    </h4>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
+            <div class="title-slide-1">
+                <h2 style="position:absolute; left:25%; overflow: hidden;"><span class="intro intro-1">HELLO</span></h2>
+                <h2 style="position:absolute; left:25%; overflow: hidden;"><span class="intro intro-2">MY NAME IS<br> <span class="text-primary">ERICH SHOWALTER</span></span></h2>
             </div>
-
-            <!-- files screen -->
-            <div class="row w-100">
-                <transition name="fade">
-                    <div v-show="state == 'files'" class="col-auto p-1">
-                        <div class="p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <button class="btn w-100" v-on:click="loadindex">
-                                    <h4 class="m-0">
-                                        <typer text="BACK" delay=".2" text_speed=".4"></typer>
-                                    </h4>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <div class="col-12"></div>
-                <transition name="fade">
-                    <div v-show="state == 'files'" class="col-12 col-lg-3 p-1">
-                        <div class="p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body">
-                                <ul class="p-3 list-group">
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://www.vision3lighting.com/" target="_blank"
-                                            @mouseover="hover = 1" @mouseleave="hover = 0">
-                                            <typer text="Vision3Lighting" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://www.staging.fresnovalves.com/" target="_blank"
-                                            @mouseover="hover = 2" @mouseleave="hover = 0">
-                                            <typer text="Fresno Valves & Castings" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://www.greatercommons.com/" target="_blank"
-                                            @mouseover="hover = 3" @mouseleave="hover = 0">
-                                            <typer text="Greater Commons" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="http://csci150project.appspot.com/" target="_blank"
-                                            @mouseover="hover = 4" @mouseleave="hover = 0">
-                                            <typer text="NoteOrious" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://gentle-retreat-90849.herokuapp.com/"
-                                            target="_blank" @mouseover="hover = 5" @mouseleave="hover = 0">
-                                            <typer text="Django-React NBA Betting Application" delay=".4"
-                                                text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://github.com/IIMasterXII/react-demo"
-                                            target="_blank" @mouseover="hover = 6" @mouseleave="hover = 0">
-                                            <typer text="React Game" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://github.com/IIMasterXII/twitter-clone"
-                                            target="_blank" @mouseover="hover = 7" @mouseleave="hover = 0">
-                                            <typer text="Twitter-Clone" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item d-flex p-1">
-                                        <a class="w-100" href="https://github.com/IIMasterXII/hackfresno2017-site"
-                                            target="_blank" @mouseover="hover = 8" @mouseleave="hover = 0">
-                                            <typer text="Tabula" delay=".2" text_speed=".4"></typer>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <transition name="fade">
-                    <div v-show="state == 'files'" class="col p-1" style="height:500px;">
-                        <div class="h-100 p-1 bg-ds ds-card-1">
-                            <div class="ds-card-body d-flex justify-content-center align-items-center">
-                                <img src="/images/vision3.jpg" v-show="hover == 1" class="p-3 position-absolute h-100">
-                                <img src="/images/valves.jpg" v-show="hover == 2" class="p-3 position-absolute h-100">
-                                <img src="/images/greater-commons.jpg" v-show="hover == 3"
-                                    class="p-3 position-absolute h-100">
-                                <img src="/images/noteorious.jpg" v-show="hover == 4"
-                                    class="p-3 position-absolute h-100">
-                                <img src="/images/django-react.jpg" v-show="hover == 5"
-                                    class="p-3 position-absolute h-100">
-                                <img src="/images/react-game.png" v-show="hover == 6"
-                                    class="p-3 position-absolute h-100">
-                                <img src="/images/twitter-clone.jpg" v-show="hover == 7"
-                                    class="p-3 position-absolute h-100">
-                                <img src="/images/tabula.jpg" v-show="hover == 8" class="p-3 position-absolute h-100">
-                            </div>
-                        </div>
-                    </div>
-                </transition>
+        </section>
+        <section class="about grid grid-1-2 height-large background-striped">
+            <div class="content">
+                <h2 class="text-primary">ABOUT ME</h2>
+                <p>
+                    I grew up in the small town of Clovis, California. In 2017, I graduated from California State University of Fresno with a Bachelor's Degree in Computer Science. I'm a huge gamer with my favorite series being Elder Scrolls, Dark Souls, and Fallout. You can also catch me traveling to some of my favorite places like Japan, Hong Kong, and Vietnam.<br>Successfully improved usability, performance and functionality on numerous websites by applying skills in Javascript, HTML/CSS, Python. Good knowledge and experience with multiple Javascript frameworks such as Vue, React, and Angular. Collaborative and hardworking software developer with critical thinking skills and a systematic approach. Experience with Agile Development, and worked directly with management and clients all over the United States.
+                </p>
             </div>
-        </div>
+            <div class="grid grid-1-2">
+                <div class="about-image"></div>
+                <div class="about-image2"></div>
+                <div class="about-image3"></div>
+                <div class="about-image4"></div>
+            </div>
+        </section>
+        <section class="grid experience-slide background-light">
+            <div class="background-primary content display-flex" style="position:relative; left:-100%;">
+                <h3 class="width-100 text-end">OVER 4 YEARS OF EXPERIENCE.</h3>
+            </div>
+        </section>
+        <section class="background-light">
+            <div class="experience-bar grid grid-1-3 padding-large-top padding-large-bottom">
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="react" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">REACT</h4>
+                </div>
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="vue" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">VUE.JS</h4>
+                </div>
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="node" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">NODE.JS</h4>
+                </div>
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="python" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">PYTHON</h4>
+                </div>
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="aws" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">AWS</h4>
+                </div>
+                <div class="content display-flex flex-column align-center justify-center">
+                    <div class="background-striped-2">
+                        <div class="adobe" style="width:100%; height:100%;"></div>
+                    </div>
+                    <h4 class="text-dark">ADOBE</h4>
+                </div> 
+            </div>
+        </section>
+        <section class="background-dark scene">
+            <div class="overlay grid grid-1-2">
+                <div class="overlay-image" data-image="0"></div>
+                <div class="content">
+                </div>
+            </div>
+        </section>
+        <section class="contact background-primary">
+            <div class="content display-flex flex-column">
+                <span>EMAIL: erich.showalter@gmail.com</span>
+                <span>PHONE: (559) 862-5881</span>
+            </div>
+        </section>
     </div>
-</body>
-<!-- <script src="/js/glitch.js"></script> -->
-<script>
+    <script type="module" src="js/app.js"></script>
+    <script>
+        // set up text to print, each item in array is new line
+        var aText = new Array(
+        "DESIGNER.", "CREATOR.", "INVENTOR.", "TRAVELER."
+        );
+        var iSpeed = 100; // time delay of print out
+        var iIndex = 0; // start printing array at this posision
+        var iArrLength = aText[0].length; // the length of the text array
+        
+        var iTextPos = 0; // initialise text position
+        var sContents = ''; // initialise contents variable
+        var iRow; // initialise current row
+        
+        function typewriter()
+        {
+            sContents =  ' ';
+            iRow = iIndex;
+            var destination = document.getElementById("typedtext");
+            destination.style.animation = "";
 
-    Vue.component('typer', {
-        props: ['text', 'delay', 'text_speed'],
-        data: function () {
-            return {
-                typed_text: ''
-            }
-        },
-        template: '<span>{{ typed_text }}</span>',
-        methods: {
-            type: function (text) {
-                if (text) {
-                    this.typed_text = this.typed_text.concat(text[0]);
-                    setTimeout(() => this.type(text.substring(1, text.length)), this.text_speed * 100)
+            destination.innerText = sContents + aText[iIndex].substring(0, iTextPos);
+            if ( iTextPos++ == iArrLength ) {
+                iTextPos = 0;
+                iIndex++;
+                if ( iIndex != aText.length ) {
+                    iArrLength = aText[iIndex].length;
+                    destination.style.animation = "fly 0.5s ease-in-out forwards 2.5s"
+                    setTimeout("typewriter()", 3000);
+                } else {
+                    iIndex = 0;
+                    iArrLength = aText[iIndex].length;
+                    destination.style.animation = "fly 0.5s ease-in-out forwards 2.5s"
+                    setTimeout("typewriter()", 3000);
                 }
-            }
-        },
-        mounted() {
-            setTimeout(() => this.type(this.text), (this.delay) * 1000);
-        }
-    })
-
-    new Vue({
-        el: '#editor',
-        data: {
-            counter: 0,
-            hover: 0,
-            state: 'start',
-            personal_info: [
-                { 'card': { 'text': 'SEX: Male', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
-                { 'card': { 'text': 'AGE: 25', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
-                { 'card': { 'text': 'PROFESSION: Web Developer', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
-                { 'card': { 'text': 'EMAIL: erich.showalter@gmail.com', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' },
-            ],
-        },
-        methods: {
-            update: function () {
-                if (this.counter < 100) {
-                    this.state = 'loading';
-                    this.counter++;
-                    setTimeout(this.update, (100 % Math.random()) * 100);
-                }
-                else {
-                    this.state = 'empty';
-                    setTimeout(() => this.state = 'complete', 500)
-                    setTimeout(() => this.state = 'empty', 2000)
-                    setTimeout(this.index, 2500)
-                }
-            },
-            loadstart: function () {
-                this.state = 'empty';
-                setTimeout(this.update, 500)
-                init();
-            },
-            index: function () {
-                this.state = 'index';
-            },
-            loadindex: function () {
-                this.state = 'empty';
-                setTimeout(this.index, 500)
-            },
-            files: function () {
-                this.state = 'files';
-            },
-            loadfiles: function () {
-                this.state = 'empty';
-                setTimeout(this.files, 500)
-            },
-            addCard: function () {
-                this.personal_info.push({ 'card': { 'text': 'I am one card1', 'delay': 0.5, 'text_speed': 0.2 }, 'card-type': 'typer' });
+            } else {
+                    setTimeout("typewriter()", iSpeed);
             }
         }
-    })
 
-</script>
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom/1.3 <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right/1.3 <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
 
+        window.addEventListener("scroll", function(e){
+            var expSlider = false;
+            var expBar = false
+            var scrolled = window.pageYOffset;
+
+            const background = document.querySelector(".title-slide-2");
+            background.style.top = (scrolled * 0.4) + 'px';
+
+            if(!expSlider){
+                if(isInViewport(document.querySelector(".experience-slide"))){
+                    const experience = document.querySelector(".experience-slide").firstElementChild;
+                    experience.style.animation = 'slide-3 2s forwards';
+                }
+            }
+
+            if(!expBar){
+                if(isInViewport(document.querySelector(".experience-bar")))
+                {
+                    const bar = document.querySelector(".experience-bar").children;
+                    for(let i = 0; i < bar.length; i++){
+                        setTimeout(() => {
+                            bar[i].style.opacity = '1';
+                            bar[i].style.top = '0';
+                        }, i * 100);
+                    }
+                }
+            }
+        })
+
+
+        typewriter();
+    </script>
+  </body>
 </html>
