@@ -325,10 +325,12 @@ function getOverlayData(index){
             break;
         case 6:
             title.classList.add("text-primary")
-            title.innerText = "NOTEORIOUS";
+            title.innerText = "STREAMER";
             content.appendChild(title);
-            description.innerText = `One of my larger team projects when I was still attending Fresno State University. NoteOrious is a note taking application that functions similary to Google Docs. Users can create documents and allow shared editing with friends. Documents would also appear on user's profiles, and visitors would be able to view and print them whenever needed.`;
+            description.innerText = `This was one of my small side projects. I wanted to imitate the interface of a typical streaming service. Streamer is completely made in React with Redux, and has no back-end involvement. Currently, only the front-end is functional with some small features missing. The media listed are just placeholders`;
             content.appendChild(description);
+            link.setAttribute('href', 'https://immense-sea-59587.herokuapp.com/');
+            content.appendChild(link);
             break;
     }
 }
