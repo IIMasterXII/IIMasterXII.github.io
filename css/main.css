@@ -70,6 +70,18 @@
   background-image: url('/textures/web6.jpg');
 }
 
+.overlay-image[data-image='7']{
+  background-image: url('/textures/web7.jpg');
+}
+
+.overlay-image[data-image='8']{
+  background-image: url('/textures/web8.jpg');
+}
+
+.overlay-image[data-image='9']{
+  background-image: url('/textures/web9.jpg');
+}
+
 .scene:focus,canvas:focus{
   outline:0;
   border:none;

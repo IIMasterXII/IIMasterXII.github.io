@@ -26,7 +26,7 @@ function init() {
     scene.background = new THREE.Color(0x111111);
     camera = new THREE.PerspectiveCamera( 90, 2, 0.1, 200 );
 
-    camera.position.z = 75;
+    camera.position.z = 90;
 
     //light
     let ambient = new THREE.AmbientLight(0x777777);
@@ -43,40 +43,60 @@ function init() {
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
     plane.position.x = -80;
-    plane.position.y = 30;
+    plane.position.y = 55;
     planes.add( plane );
 
     var texture = new THREE.TextureLoader().load( 'textures/web2.jpg' );
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
-    plane.position.y = 30;
+    plane.position.y = 55;
     planes.add( plane );
 
     var texture = new THREE.TextureLoader().load( 'textures/web3.jpg' );
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
     plane.position.x = 80;
-    plane.position.y = 30;
+    plane.position.y = 55;
     planes.add( plane );
 
     var texture = new THREE.TextureLoader().load( 'textures/web4.jpg' );
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
     plane.position.x = -80;
-    plane.position.y = -30;
+    plane.position.y = 0;
     planes.add( plane );
 
     var texture = new THREE.TextureLoader().load( 'textures/web5.jpg' );
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
-    plane.position.y = -30;
+    plane.position.y = 0;
     planes.add( plane );
 
     var texture = new THREE.TextureLoader().load( 'textures/web6.jpg' );
     var material = new THREE.MeshBasicMaterial( { map: texture } );
     var plane = new THREE.Mesh( geometry, material );
     plane.position.x = 80;
-    plane.position.y = -30;
+    plane.position.y = 0;
+    planes.add( plane );
+
+    var texture = new THREE.TextureLoader().load( 'textures/web7.jpg' );
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var plane = new THREE.Mesh( geometry, material );
+    plane.position.x = -80;
+    plane.position.y = -55;
+    planes.add( plane );
+
+    var texture = new THREE.TextureLoader().load( 'textures/web8.jpg' );
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var plane = new THREE.Mesh( geometry, material );
+    plane.position.y = -55;
+    planes.add( plane );
+
+    var texture = new THREE.TextureLoader().load( 'textures/web9.jpg' );
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var plane = new THREE.Mesh( geometry, material );
+    plane.position.x = 80;
+    plane.position.y = -55;
     planes.add( plane );
 
     scene.add(planes);
@@ -113,33 +133,45 @@ function animate() {
 
 function changeGrid(mobile){
     if(mobile){
-        planes.position.z = -20;
-        planes.children[0].position.x = -40;
-        planes.children[0].position.y = 60;
-        planes.children[1].position.x = 40;
-        planes.children[1].position.y = 60;
-        planes.children[2].position.x = -40;
-        planes.children[2].position.y = 0;
-        planes.children[3].position.x = 40;
+        planes.position.z = -40;
+        planes.children[0].position.x = -80;
+        planes.children[0].position.y = 70;
+        planes.children[1].position.x = 0;
+        planes.children[1].position.y = 70;
+        planes.children[2].position.x = 80;
+        planes.children[2].position.y = 70;
+        planes.children[3].position.x = -80;
         planes.children[3].position.y = 0;
-        planes.children[4].position.x = -40;
-        planes.children[4].position.y = -60;
-        planes.children[5].position.x = 40;
-        planes.children[5].position.y = -60;
+        planes.children[4].position.x = 0;
+        planes.children[4].position.y = 0;
+        planes.children[5].position.x = 80;
+        planes.children[5].position.y = 0;
+        planes.children[6].position.x = -80;
+        planes.children[6].position.y = -70;
+        planes.children[7].position.x = 0;
+        planes.children[7].position.y = -70;
+        planes.children[8].position.x = 80;
+        planes.children[8].position.y = -70;
     } else {
         planes.position.z = 0;
         planes.children[0].position.x = -80;
-        planes.children[0].position.y = 30;
+        planes.children[0].position.y = 55;
         planes.children[1].position.x = 0;
-        planes.children[1].position.y = 30;
+        planes.children[1].position.y = 55;
         planes.children[2].position.x = 80;
-        planes.children[2].position.y = 30;
+        planes.children[2].position.y = 55;
         planes.children[3].position.x = -80;
-        planes.children[3].position.y = -30;
+        planes.children[3].position.y = 0;
         planes.children[4].position.x = 0;
-        planes.children[4].position.y = -30;
+        planes.children[4].position.y = 0;
         planes.children[5].position.x = 80;
-        planes.children[5].position.y = -30;
+        planes.children[5].position.y = 0;
+        planes.children[6].position.x = -80;
+        planes.children[6].position.y = -55;
+        planes.children[7].position.x = 0;
+        planes.children[7].position.y = -55;
+        planes.children[8].position.x = 80;
+        planes.children[8].position.y = -55;
     }
 }
 
@@ -330,6 +362,33 @@ function getOverlayData(index){
             description.innerText = `This was one of my small side projects. I wanted to imitate the interface of a typical streaming service. Streamer is completely made in React with Redux, and has no back-end involvement. Currently, only the front-end is functional with some small features missing. The media listed are just placeholders`;
             content.appendChild(description);
             link.setAttribute('href', 'https://immense-sea-59587.herokuapp.com/');
+            content.appendChild(link);
+            break;
+        case 7:
+            title.classList.add("text-primary")
+            title.innerText = "FANTASY RACES";
+            content.appendChild(title);
+            description.innerText = `This small project was made using MongoDB, Node, Express, and React. Fantasy Races functions as a 16 type Personality Quiz, and it records the results of its users.`;
+            content.appendChild(description);
+            link.setAttribute('href', 'https://fantasyraces.herokuapp.com/');
+            content.appendChild(link);
+            break;
+        case 8:
+            title.classList.add("text-primary")
+            title.innerText = "REACT GAME";
+            content.appendChild(title);
+            description.innerText = `A small project made entirely with React. This was one of my first projects with React. I just wanted to create a character select screen and inventory system that is functional with React.`;
+            content.appendChild(description);
+            link.setAttribute('href', 'https://github.com/IIMasterXII/react-demo');
+            content.appendChild(link);
+            break;
+        case 9:
+            title.classList.add("text-primary")
+            title.innerText = "NOTEORIOUS";
+            content.appendChild(title);
+            description.innerText = `Noteorious was a team project that I made while I was still in University. It functions as a note taking application that allows users to create, save, and download notes. Users could also share these notes with defined permissions similar to Google Documents.`;
+            content.appendChild(description);
+            link.setAttribute('href', 'https://github.com/IIMasterXII/noteorious-site');
             content.appendChild(link);
             break;
     }
