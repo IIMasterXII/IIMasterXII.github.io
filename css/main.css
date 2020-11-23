@@ -633,6 +633,10 @@ hr.solid{
     margin: 1rem 0 0 0;
   }
 
+  p {
+    font-size: 0.7rem;
+  }
+
   .experience-bar > .content > div{
     width:75px;
     height:75px;
