@@ -348,11 +348,11 @@ function getOverlayData(index){
             break;
         case 5:
             title.classList.add("text-primary")
-            title.innerText = "TABULA";
+            title.innerText = "MARS";
             content.appendChild(title);
-            description.innerText = `A small project that functioned like an anonymous Discord. Users were allowed to join text channels using codes, and talk freely with other anonymous users. I completed this project during a Hackathon at Fresno State University. I even ended up winning an award.`;
+            description.innerText = `Mars is a simple recruitment website made using MongoDB, Node, Express, and React. I made this website to practice my skills with handling user created forms in React and Node.js.`;
             content.appendChild(description);
-            link.setAttribute('href', 'https://github.com/IIMasterXII/hackfresno2017-site');
+            link.setAttribute('href', 'https://mars-frontier.herokuapp.com/');
             content.appendChild(link);
             break;
         case 6:
@@ -384,11 +384,11 @@ function getOverlayData(index){
             break;
         case 9:
             title.classList.add("text-primary")
-            title.innerText = "NOTEORIOUS";
+            title.innerText = "TABULA";
             content.appendChild(title);
-            description.innerText = `Noteorious was a team project that I made while I was still in University. It functions as a note taking application that allows users to create, save, and download notes. Users could also share these notes with defined permissions similar to Google Documents.`;
+            description.innerText = `A small project that functioned like an anonymous Discord. Users were allowed to join text channels using codes, and talk freely with other anonymous users. I completed this project during a Hackathon at Fresno State University. I even ended up winning an award.`;
             content.appendChild(description);
-            link.setAttribute('href', 'https://github.com/IIMasterXII/noteorious-site');
+            link.setAttribute('href', 'https://github.com/IIMasterXII/hackfresno2017-site');
             content.appendChild(link);
             break;
     }
